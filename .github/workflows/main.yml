@@ -35,7 +35,7 @@ jobs:
         run: unzip images.zip -d images
 
       - name: Run Python Script
-        run: python resize_images.py images
+        run: python main.py images
 
       - name: Archive Output
         uses: actions/upload-artifact@v3
