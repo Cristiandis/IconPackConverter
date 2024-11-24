@@ -1,10 +1,11 @@
 name: Resize and Rename Images
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      zip_file_url:
+        description: 'URL of the zip file containing images'
+        required: true
 
 jobs:
   resize:
@@ -23,11 +24,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pillow
 
-      - name: Extract Zip File
-        uses: actions/checkout@v3
-        with:
-          path: images.zip
-          fetch-depth: 0
+      - name: Download Zip File
+        run: |
+          curl -L ${{ secrets.ZIP_FILE_URL }} -o images.zip
 
       - name: Create Images Directory
         run: mkdir images
@@ -36,7 +35,7 @@ jobs:
         run: unzip images.zip -d images
 
       - name: Run Python Script
-        run: python main.py images
+        run: python resize_images.py images
 
       - name: Archive Output
         uses: actions/upload-artifact@v3
