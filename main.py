@@ -25,7 +25,7 @@ def process_images(input_dir):
                         new_file_path_3x = os.path.join(root, f"{os.path.splitext(file)[0]}@3x{os.path.splitext(file)[1]}")
                         img.save(new_file_path_3x)
 
-                        # Downscale the image by 1/3 for @2x (resizing, not cropping)
+                        # Downscale the image by 1/3 for @2x (resized)
                         width, height = img.size
                         new_width = int(width * 2 / 3)  # Reduce width by 1/3
                         new_height = int(height * 2 / 3)  # Reduce height by 1/3
