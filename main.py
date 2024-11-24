@@ -4,12 +4,18 @@ import os
 def resize_and_rename(input_dir):
     """
     Resizes and renames images in a given directory and its subdirectories,
-    and deletes the original images.
+    excluding specified subdirectories, and deletes the original images.
 
     Args:
         input_dir: The path to the input directory.
     """
+    excluded_dir = os.path.join(input_dir, "images", "platforms")
+
     for root, _, files in os.walk(input_dir):
+        # Skip the excluded directory
+        if os.path.commonpath([root, excluded_dir]) == excluded_dir:
+            continue
+
         for file in files:
             if file.lower().endswith(('.png', '.jpg', '.jpeg')):
                 file_path = os.path.join(root, file)
