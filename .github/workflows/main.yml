@@ -26,7 +26,7 @@ jobs:
 
       - name: Download Zip File
         run: |
-          curl -L ${{ secrets.ZIP_FILE_URL }} -o images.zip
+          curl -L ${{ secrets.zip_file_url }} -o images.zip
 
       - name: Create Images Directory
         run: mkdir images
