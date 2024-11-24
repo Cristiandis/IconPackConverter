@@ -1,18 +1,18 @@
 from PIL import Image
 import os
 
-def resize_and_rename(input_dir):
+def process_images(input_dir):
     """
-    Resizes and renames images in a given directory and its subdirectories,
-    excluding specific subdirectories, and deletes the original images.
+    Duplicates images in a directory and its subdirectories, excludes specific subdirectories,
+    and processes them based on the given requirements.
 
     Args:
         input_dir: The path to the input directory.
     """
     for root, _, files in os.walk(input_dir):
-        # Check if the current directory matches the excluded pattern
-        if "platforms" in root and root.endswith("images/platforms"):
-            continue  # Skip this directory and its contents
+        # Exclude specific subdirectories
+        if any(excluded in root for excluded in ["images/group_dms", "images/platforms"]):
+            continue  # Skip these directories and their contents
 
         for file in files:
             if file.lower().endswith(('.png', '.jpg', '.jpeg')):
@@ -21,15 +21,16 @@ def resize_and_rename(input_dir):
                 try:
                     # Load the image
                     with Image.open(file_path) as img:
-                        # Resize to 72x72 and save with "@3x" suffix
-                        img_72 = img.resize((72, 72))
-                        new_file_path_72 = os.path.join(root, f"{os.path.splitext(file)[0]}@3x{os.path.splitext(file)[1]}")
-                        img_72.save(new_file_path_72)
+                        # Create a duplicate with @3x suffix (unchanged)
+                        new_file_path_3x = os.path.join(root, f"{os.path.splitext(file)[0]}@3x{os.path.splitext(file)[1]}")
+                        img.save(new_file_path_3x)
 
-                        # Resize to 48x48 and save with "@2x" suffix
-                        img_48 = img.resize((48, 48))
-                        new_file_path_48 = os.path.join(root, f"{os.path.splitext(file)[0]}@2x{os.path.splitext(file)[1]}")
-                        img_48.save(new_file_path_48)
+                        # Create another duplicate with @2x suffix (cropped)
+                        width, height = img.size
+                        crop_amount = width // 3  # Remove one-third of the width
+                        img_cropped = img.crop((0, 0, width - crop_amount, height))
+                        new_file_path_2x = os.path.join(root, f"{os.path.splitext(file)[0]}@2x{os.path.splitext(file)[1]}")
+                        img_cropped.save(new_file_path_2x)
 
                     # Delete the original file
                     os.remove(file_path)
@@ -38,4 +39,4 @@ def resize_and_rename(input_dir):
 
 # Example usage:
 input_directory = "images"
-resize_and_rename(input_directory)
+process_images(input_directory)
