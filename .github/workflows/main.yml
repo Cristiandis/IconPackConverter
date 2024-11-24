@@ -1,4 +1,4 @@
-name: Resize and Rename Images
+name: Convert Icon Pack
 
 on:
   workflow_dispatch:
