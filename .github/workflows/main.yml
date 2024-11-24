@@ -26,7 +26,7 @@ jobs:
 
       - name: Download Zip File
         run: |
-          curl -L ${{ secrets.zip_file_url }} -o images.zip
+          curl -L ${{ github.event.inputs.zip_file_url }} -o images.zip
 
       - name: Create Images Directory
         run: mkdir images
