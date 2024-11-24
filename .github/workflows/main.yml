@@ -1,0 +1,45 @@
+name: Resize and Rename Images
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  resize:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pillow
+
+      - name: Extract Zip File
+        uses: actions/checkout@v3
+        with:
+          path: images.zip
+          fetch-depth: 0
+
+      - name: Create Images Directory
+        run: mkdir images
+
+      - name: Extract Zip File to Images Directory
+        run: unzip images.zip -d images
+
+      - name: Run Python Script
+        run: python main.py images
+
+      - name: Archive Output
+        uses: actions/upload-artifact@v3
+        with:
+          name: resized-images
+          path: images
