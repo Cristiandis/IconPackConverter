@@ -9,11 +9,10 @@ def resize_and_rename(input_dir):
     Args:
         input_dir: The path to the input directory.
     """
-    exclude_dir = os.path.join(input_dir, "images", "platforms")  # Define the subdirectory to exclude
-
     for root, _, files in os.walk(input_dir):
-        if exclude_dir in root:  # Skip the excluded directory
-            continue
+        # Check if the current directory matches the excluded pattern
+        if "platforms" in root and root.endswith("images/platforms"):
+            continue  # Skip this directory and its contents
 
         for file in files:
             if file.lower().endswith(('.png', '.jpg', '.jpeg')):
