@@ -40,5 +40,5 @@ jobs:
       - name: Archive Output
         uses: actions/upload-artifact@v3
         with:
-          name: resized-images
+          name: converted-iconpack
           path: images
