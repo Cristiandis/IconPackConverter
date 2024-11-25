@@ -38,7 +38,7 @@ jobs:
         run: python main.py images
 
       - name: Archive Output
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: converted-iconpack
           path: images
