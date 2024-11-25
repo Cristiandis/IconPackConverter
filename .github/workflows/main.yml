@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       zip_file_url:
-        description: 'URL of the zip file containing images'
+        description: 'URL of the zipped icon pack'
         required: true
 
 jobs:
