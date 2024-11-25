@@ -32,7 +32,7 @@ jobs:
         run: mkdir images
 
       - name: Extract Zip File to Images Directory
-        run: unzip images.zip -d images
+        run: unzip -q images.zip -d images
 
       - name: Run Python Script
         run: python main.py images
